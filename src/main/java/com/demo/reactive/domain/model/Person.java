@@ -2,11 +2,15 @@ package com.demo.reactive.domain.model;
 
 public class Person {
 
+	private long id;
 	private String name;
 	private String country;
 	private String city;
 	private int age;
-	
+
+	public Person() {
+	}
+
 	public Person(String name, String country, String city, int age) {
 		this.name = name;
 		this.country = country;
@@ -44,6 +48,14 @@ public class Person {
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }
