@@ -25,5 +25,11 @@ public class PersonHandler {
 		return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(service.getPersonMaxAge(),
 				Person.class);
 	}
+	
+	public Mono<ServerResponse> create(final ServerRequest request) {
+		Person person = request.bodyToMono(Person.class).block();
+		return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(service.create(person),
+				Person.class);
+	}
 
 }

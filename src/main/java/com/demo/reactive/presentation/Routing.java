@@ -16,6 +16,7 @@ public class Routing {
 		return RouterFunctions.route()
 		  .GET("/person/max-age", RequestPredicates.accept(MediaType.APPLICATION_JSON), handler::maxAge)
 		  .GET("/person", RequestPredicates.accept(MediaType.APPLICATION_JSON), handler::listPeople)		  
+		  .POST("/person", RequestPredicates.accept(MediaType.APPLICATION_JSON), handler::create)		  
 		  .build();
 	}
 
