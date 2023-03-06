@@ -1,5 +1,6 @@
 package com.demo.reactive.presentation;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -21,7 +22,7 @@ import com.demo.reactive.domain.usecase.UseCasePerson;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@ContextConfiguration(classes = {PersonController.class, UseCasePerson.class, PersonRules.class })
+@ContextConfiguration(classes = { PersonController.class, UseCasePerson.class, PersonRules.class })
 @WebFluxTest(PersonController.class)
 public class PersonControllerTest {
 
@@ -40,18 +41,31 @@ public class PersonControllerTest {
     	});
     	verify(useCase).getAllPeople();
     }
-	
+
 	@Test
-    public void maxAge() {
+	public void maxAge() {
 		Optional<Person> optional = Optional.of(new Person(10L, "Rosita", "CO", "Pueblorrico", 76));
-    	when(useCase.getPersonMaxAge()).thenReturn(Mono.just(optional));
-    	webTestClient.get().uri("/person/max-age").exchange().expectStatus().isOk()
-    	.expectBody(Optional.class).value(op -> {
-    		Assertions.assertTrue(op.isPresent());
-    		boolean instance = op.get() instanceof Map;
-    		Assertions.assertTrue(instance);
-    	});
-    	verify(useCase).getPersonMaxAge();
-    }
+		when(useCase.getPersonMaxAge()).thenReturn(Mono.just(optional));
+		webTestClient.get().uri("/person/max-age").exchange().expectStatus().isOk().expectBody(Optional.class)
+				.value(op -> {
+					Assertions.assertTrue(op.isPresent());
+					boolean instance = op.get() instanceof Map;
+					Assertions.assertTrue(instance);
+				});
+		verify(useCase).getPersonMaxAge();
+	}
+
+	@Test
+	public void create() {
+		when(useCase.create(any(Person.class))).thenReturn(Mono.just(new Person()));
+		webTestClient.post().uri("/person")
+		.body(Mono.just(new Person()), Person.class)
+		.exchange().expectStatus().isCreated()
+		.expectBody(Person.class)
+		.value(p -> {
+			Assertions.assertNotNull(p);
+		});
+		verify(useCase).create(any(Person.class));
+	}
 
 }
