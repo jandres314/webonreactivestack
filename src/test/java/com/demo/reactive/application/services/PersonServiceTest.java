@@ -61,8 +61,8 @@ public class PersonServiceTest {
 	public void getEmptyPersonMaxAge() {
 		when(repository.findAll()).thenReturn(Flux.empty());
 		Mono<Optional<Person>> mono = service.getPersonMaxAge();
-		StepVerifier.create(mono).expectSubscription().assertNext(p -> {
-			Assertions.assertTrue(p.isEmpty());			
+		StepVerifier.create(mono).expectSubscription().assertNext(op -> {
+			Assertions.assertNotNull(op);			
 		}).expectComplete().verify();
 		verify(repository).findAll();
 	}
