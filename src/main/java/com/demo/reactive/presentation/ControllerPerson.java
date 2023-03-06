@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.reactive.application.services.PersonService;
 import com.demo.reactive.domain.model.Person;
+import com.demo.reactive.domain.usecase.UseCasePerson;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -21,21 +21,21 @@ import reactor.core.publisher.Mono;
 public class ControllerPerson {
 
 	@Autowired
-	private PersonService service;
+	private UseCasePerson useCase;
 
 	@GetMapping
 	public Flux<Person> allPeople() {
-		return service.getAllPeople();
+		return useCase.getAllPeople();
 	}
 
 	@GetMapping("/max-age")
 	public Mono<Optional<Person>> maxAge() {
-		return service.getPersonMaxAge();
+		return useCase.getPersonMaxAge();
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<Person> create(@RequestBody Person person) {
-		return service.create(person);
+		return useCase.create(person);
 	}
 
 }
