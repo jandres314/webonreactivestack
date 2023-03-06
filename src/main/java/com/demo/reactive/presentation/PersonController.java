@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/person")
-public class ControllerPerson {
+public class PersonController {
 
 	@Autowired
 	private UseCasePerson useCase;

@@ -21,9 +21,9 @@ import com.demo.reactive.domain.usecase.UseCasePerson;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@ContextConfiguration(classes = {ControllerPerson.class, UseCasePerson.class, PersonRules.class })
-@WebFluxTest(ControllerPerson.class)
-public class ControllerPersonTest {
+@ContextConfiguration(classes = {PersonController.class, UseCasePerson.class, PersonRules.class })
+@WebFluxTest(PersonController.class)
+public class PersonControllerTest {
 
 	@Autowired
 	private WebTestClient webTestClient;
